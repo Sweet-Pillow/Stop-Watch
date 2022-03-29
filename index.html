@@ -81,20 +81,22 @@
                 clearInterval(myInterval)
                 counting = 0
             } else {
-                myInterval = setInterval(AddTime, 100)
+                myInterval = setInterval(AddTime, 1000)
                 counting = 1
             }
         }
 
         function Reset() {
             clearInterval(myInterval)
-            counting = 0
+            counting = 1
             document.getElementById("StartButton").disabled = false
             document.getElementById("PauseButton").disabled = true
             document.getElementById("ResetButton").disabled = true
             const element = document.getElementById("Watch")
             element.innerHTML = '00:00:00'
-            sec, min, hou = 0
+            sec = 0
+            min = 0
+            hou = 0
         }
 
     </Script>
