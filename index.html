@@ -26,15 +26,20 @@
             background-color: aquamarine;
             font: normal 60pt Consolas;
         }
+
+        button:hover {
+            background-color: #6f66be;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
     <section>
         <p id="Watch">00:00:00</p>
-        <button type="button" onclick="Start()">Start</button>
-        <button type="button" onclick="Pause()">Pause</button>
-        <button type="button" onclick="Reset()">Reset</button>
+        <button type="button" id="StartButton" onclick="Start()">Start</button>
+        <button type="button" id="PauseButton" disabled=true onclick="Pause()">Pause/Play</button>
+        <button type="button" id="ResetButton" disabled=true onclick="Reset()">Reset</button>
 
     </section>
     <Script>
@@ -42,25 +47,55 @@
         var sec = 0
         var min = 0
         var hou = 0
+        var counting = 1
+        var myInterval = setInterval
 
         function Start() {
-            sec ++
-            setTimeout(AddTime, 1000)
+            document.getElementById("StartButton").disabled = true
+            document.getElementById("PauseButton").disabled = false
+            document.getElementById("ResetButton").disabled = false
+            myInterval = setInterval(AddTime, 1000)
         }
 
         function AddTime() {
-            const element = document.getElementById("Watch")
-            element.innerHTML = `${String(hou).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+            if (hou != 24) {
+                sec++
+                const element = document.getElementById("Watch")
+                element.innerHTML = `${String(hou).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+                if (sec == 59) {
+                    min++
+                    sec = 0
+                } else if (min == 59) {
+                    hou++
+                    min = 0
+                }
+            } else {
+                const element = document.getElementById("Watch")
+                element.innerHTML = '1 dia'
+            }
         }
 
         function Pause() {
-            alert('Pausando')
+            if (counting == 1) {
+                document.getElementById("StartButton").disabled = true
+                clearInterval(myInterval)
+                counting = 0
+            } else {
+                myInterval = setInterval(AddTime, 100)
+                counting = 1
+            }
         }
 
         function Reset() {
-            alert('Reset')
+            clearInterval(myInterval)
+            counting = 0
+            document.getElementById("StartButton").disabled = false
+            document.getElementById("PauseButton").disabled = true
+            document.getElementById("ResetButton").disabled = true
+            const element = document.getElementById("Watch")
+            element.innerHTML = '00:00:00'
+            sec, min, hou = 0
         }
-
 
     </Script>
 </body>
