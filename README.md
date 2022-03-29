@@ -1,2 +1,2 @@
 # Stop-Watch
- Simple stop watch me in JS
+ Simple stop watch made in JS.
